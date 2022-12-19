@@ -6,4 +6,3 @@
 
 - 2022-12-19：完成了项目骨架，实现了基本的前后端交互
 
-[README.md](https://github.com/ADguyCN990/KOB/files/10259303/README.md)
