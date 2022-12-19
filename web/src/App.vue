@@ -1,33 +1,30 @@
 <template>
-  <h1>我的最爱：{{ name }}</h1>
-  <router-view/>
+  <NavBar></NavBar>
+  <RouterView></RouterView>
 </template>
 
 <script>
-import $ from 'jquery';
-import { ref } from 'vue';
+// import $ from 'jquery';
+// import { ref } from 'vue';
+import NavBar from './components/NavBar.vue';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
+
 
 
 export default {
-  setup: () => {
-    let name = ref("");
-
-    $.ajax({
-      url: "http://127.0.0.1:3000/pk/getbotinfo/",
-      type: "get",
-      success: resp => {
-        name.value = resp;
-      }
-    })
-
-    return {
-      name
-    }
+  components: {
+    NavBar
   }
 }
 </script>
 
-<style scoped>
+<style>
+body {
+  background-image: url("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231912040.webp");
+  background-size: cover;
+}
+
 </style>
 
 
