@@ -1,6 +1,6 @@
 ## 开发日志
 
-看这里：[进入我的博客](http://localhost:4000/categories/%E5%B7%A5%E7%A8%8B/Springboot/kob/)
+看这里：[进入我的博客](http://adguy.top/categories/%E5%B7%A5%E7%A8%8B/Springboot/kob/)
 
 ## 日记
 
