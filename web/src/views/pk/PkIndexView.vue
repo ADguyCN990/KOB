@@ -1,16 +1,16 @@
 <template>
     <div>
-        <ContendField>
-            PK
-        </ContendField>
+        <PlayGround>
+            
+        </PlayGround>
     </div>
 </template>
 
 <script>
-import ContendField from '../../components/ContendField.vue'
+import PlayGround from '../../components/PlayGround.vue'
 export default {
     components: {
-        ContendField,
+        PlayGround,
     }
 }
 </script>
