@@ -1,5 +1,6 @@
 import { AcGameObject } from "./AcGameObject";
 import { Wall } from "./Wall"
+import { Snake } from "./Snake"
 
 export class GameMap extends AcGameObject {
     constructor(ctx, parent) {
@@ -10,10 +11,15 @@ export class GameMap extends AcGameObject {
         this.L = 0;
 
         this.rows = 13;
-        this.cols = 13;
+        this.cols = 14;
 
-        this.inner_walls_count = 10; //随机障碍物数量
+        this.inner_walls_count = 12; //随机障碍物数量
         this.walls = [];
+
+        this.snakes = [
+            new Snake({id: 0, color: "#4876ec", r: this.rows - 2, c: 1}, this),
+            new Snake({id: 1, color: "#f94848", r: 1, c: this.cols - 2}, this),
+        ]
 
     }
 
@@ -55,10 +61,10 @@ export class GameMap extends AcGameObject {
             for (let j = 0; j < 100000; j++) {
                 let r = parseInt(Math.random() * this.rows);
                 let c = parseInt(Math.random() * this.cols);
-                if (g[r][c] || g[c][r]) continue; //已经有墙了
+                if (g[r][c] || g[this.rows - r - 1][this.cols - c - 1]) continue; //已经有墙了
                 if (r == this.rows - 2 && c == 1 || r == 1 && c == this.cols - 2) continue; //排除起点
                 g[r][c] = true;
-                g[c][r] = true;
+                g[this.rows - r - 1][this.cols - c - 1] = true;
                 break;
             }
         }
@@ -79,7 +85,31 @@ export class GameMap extends AcGameObject {
         return true;
     }
 
+    check_ready() { //检测两条蛇是否准备好下一回合的移动
+        for (const snake of this.snakes) {
+            if (snake.status !== "idle") return false;
+            if (snake.direction === -1) return false;
+        }
+        return true;
+    }
+
+    add_listening_events() {
+        this.ctx.canvas.focus();
+        const [snake0, snake1] = this.snakes; 
+        this.ctx.canvas.addEventListener("keydown", e => {
+            if (e.key === 'w') snake0.set_direction(0);
+            else if (e.key === 'd') snake0.set_direction(1);
+            else if (e.key === 's') snake0.set_direction(2);
+            else if (e.key === 'a') snake0.set_direction(3);
+            else if (e.key === 'ArrowUp') snake1.set_direction(0);
+            else if (e.key === 'ArrowRight') snake1.set_direction(1);
+            else if (e.key === 'ArrowDown') snake1.set_direction(2);
+            else if (e.key === 'ArrowLeft') snake1.set_direction(3);
+        });
+    }
+
     start() {
+        this.add_listening_events();
         for (let i = 0; i < 1000; i++) {
             if (this.create_walls()) {
                 break;
@@ -95,8 +125,37 @@ export class GameMap extends AcGameObject {
         this.ctx.canvas.height = this.L * this.rows;
     }
 
+    next_step() {
+        for (let snake of this.snakes) {
+            snake.next_step();
+        }
+    }
+
+    check_valid(cell) { //检查下一步是否合法
+        for (const wall of this.walls) {
+            if (wall.r === cell.r && wall.c === cell.c) {
+                return false;
+            }
+        }
+        for (const snake of this.snakes) {
+            let k = snake.cells.length;
+            if (!snake.check_tail_increasing()) { //此时不要判断蛇尾
+                k--;
+            }
+            for (let i = 0; i < k; i++) {
+                if (snake.cells[i].r === cell.r && snake.cells[i].c === cell.c) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     update() {
         this.update_size();
+        if (this.check_ready()) {
+            this.next_step();
+        }
         this.render();
     }
 
