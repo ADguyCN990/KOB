@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import $ from 'jquery';
+// import $ from 'jquery';
 // import { ref } from 'vue';
 import NavBar from './components/NavBar.vue';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -46,21 +46,21 @@ export default {
     //   }
     // })
 
-    $.ajax({
-      url: "http://127.0.0.1:3000/user/account/register/",
-      type: "post",
-      data: {
-        username: "傻逼",
-        password: "傻逼",
-        confirmedPassword: "asdkjf;lasjdkf;asldfj",
-      },
-      success(resp) {
-        console.log(resp);
-      },
-      error(resp) {
-        console.log(resp);
-      }
-    })
+    // $.ajax({
+    //   url: "http://127.0.0.1:3000/user/account/register/",
+    //   type: "post",
+    //   data: {
+    //     username: "脑残",
+    //     password: "asdkjf;lasjdkf;asldfj",
+    //     confirmedPassword: "asdkjf;lasjdkf;asldfj",
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   }
+    // })
   }
 }
 </script>
