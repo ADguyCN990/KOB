@@ -6,46 +6,71 @@ import RecordIndexView from '../views/record/RecordIndexView.vue'
 import UserBotIndexView from '../views/user/bot/UserBotIndexView.vue'
 import UserAccountLoginIndexView from '../views/user/account/UserAccountLoginView.vue'
 import UserAccountRegisterIndexView from '../views/user/account/UserAccountRegisterView.vue'
+import store from '../store/index'
 
 const routes = [
   {
     path: "/",
     name: "home",
+    meta: {
+      requestAuth: true,
+    }
   },
   {
     path: "/pk/",
     name: "pk_index",
     component: PkIndexView,
+    meta: {
+      requestAuth: true,
+    }
   },
   {
     path: "/ranklist/",
     name: "rank_index",
     component: RanklistIndexView,
+    meta: {
+      requestAuth: true,
+    }
   },
   {
     path: "/record/",
     name: "record_index",
     component: RecordIndexView,
+    meta: {
+      requestAuth: true,
+    }
   },
   {
     path: "/user/bot/",
     name: "user_bot_index",
     component: UserBotIndexView,
+    meta: {
+      requestAuth: true,
+    }
   },
   {
     path: "/user/account/login",
     name: "user_account_login",
     component: UserAccountLoginIndexView,
+    meta: {
+      requestAuth: false,
+    }
   },
   {
     path: "/user/account/register",
     name: "user_account_register",
     component: UserAccountRegisterIndexView,
+    meta: {
+      requestAuth: false,
+    }
   },
   {
     path: "/404/",
     name: "404_index",
     component: NotFoundView,
+    meta: {
+      requestAuth: false,
+    }
   },
   {
     path: "/:catchAll(.*)",
@@ -60,4 +85,34 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  const jwt_token = localStorage.getItem("jwt_token");
+
+  let st = true;
+  if (jwt_token) {
+    store.commit("updateToken", jwt_token);
+    store.dispatch("getinfo", {
+      success() { },
+      error() {
+        router.push({ name: "user_account_login" });
+        localStorage.removeItem('jwt_token');
+        store.commit("logout");
+      },
+    });
+  } else {
+    st = false;
+  }
+
+  if (to.meta.requestAuth && !store.state.user.is_login && !st) {
+    next({ name: "user_account_login" });
+  } else {
+    next();
+  }
+});
+
+
+
 export default router
+
+
+
