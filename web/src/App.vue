@@ -4,7 +4,8 @@
 </template>
 
 <script>
-// import $ from 'jquery';
+import $ from 'jquery';
+// import { useStore } from 'vuex';
 // import { ref } from 'vue';
 import NavBar from './components/NavBar.vue';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -61,6 +62,89 @@ export default {
     //     console.log(resp);
     //   }
     // })
+
+    //const store = useStore();
+    //console.log(store.state.user.token);
+    // const jwt_token = localStorage.getItem("jwt_token");
+    // $.ajax({
+    //   url: "http://127.0.0.1:3000/user/bot/add/",
+    //   type: "post",
+    //   data: {
+    //     title: "bot的名称",
+    //     description: "bot的描述",
+    //     content: "bot的内容",
+    //   },
+    //   headers: {
+    //     Authorization: "Bearer " + jwt_token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   }
+
+    // })
+
+    // const jwt_token = localStorage.getItem("jwt_token");
+    // console.log(jwt_token);
+    // $.ajax({
+    //   url: "http://127.0.0.1:3000/user/bot/remove/",
+    //   type: "post",
+    //   data: {
+    //     bot_id: 23,
+    //   },
+    //   headers: {
+    //     Authorization: "Bearer " + jwt_token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   }
+
+    // })
+
+    // const jwt_token = localStorage.getItem("jwt_token");
+    // $.ajax({
+    //   url: "http://127.0.0.1:3000/user/bot/update/",
+    //   type: "post",
+    //   data: {
+    //     bot_id: 100,
+    //     title: "庄轲",
+    //     description: "庄轲",
+    //     content: "庄轲",
+    //   },
+    //   headers: {
+    //     Authorization: "Bearer " + jwt_token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   }
+
+    // })
+
+    const jwt_token = localStorage.getItem("jwt_token");
+    $.ajax({
+      url: "http://127.0.0.1:3000/user/bot/getlist/",
+      type: "get",
+      headers: {
+        Authorization: "Bearer " + jwt_token,
+      },
+      success(resp) {
+        console.log(resp);
+      },
+      error(resp) {
+        console.log(resp);
+      }
+
+    })
+
+
   }
 }
 </script>

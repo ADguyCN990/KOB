@@ -95,8 +95,6 @@ router.beforeEach((to, from, next) => {
       success() { },
       error() {
         router.push({ name: "user_account_login" });
-        localStorage.removeItem('jwt_token');
-        store.commit("logout");
       },
     });
   } else {
