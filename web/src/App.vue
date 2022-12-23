@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import $ from 'jquery';
+//import $ from 'jquery';
 // import { useStore } from 'vuex';
 // import { ref } from 'vue';
 import NavBar from './components/NavBar.vue';
@@ -128,21 +128,21 @@ export default {
 
     // })
 
-    const jwt_token = localStorage.getItem("jwt_token");
-    $.ajax({
-      url: "http://127.0.0.1:3000/user/bot/getlist/",
-      type: "get",
-      headers: {
-        Authorization: "Bearer " + jwt_token,
-      },
-      success(resp) {
-        console.log(resp);
-      },
-      error(resp) {
-        console.log(resp);
-      }
+    // const jwt_token = localStorage.getItem("jwt_token");
+    // $.ajax({
+    //   url: "http://127.0.0.1:3000/user/bot/getlist/",
+    //   type: "get",
+    //   headers: {
+    //     Authorization: "Bearer " + jwt_token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   }
 
-    })
+    // })
 
 
   }
@@ -156,5 +156,7 @@ body {
 }
 
 </style>
+
+
 
 
