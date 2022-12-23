@@ -112,9 +112,9 @@ export default {
     //   type: "post",
     //   data: {
     //     bot_id: 100,
-    //     title: "庄轲",
-    //     description: "庄轲",
-    //     content: "庄轲",
+    //     title: "不告诉你",
+    //     description: "不告诉你",
+    //     content: "不告诉你",
     //   },
     //   headers: {
     //     Authorization: "Bearer " + jwt_token,
