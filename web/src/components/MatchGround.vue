@@ -34,6 +34,7 @@ import store from '../store';
 export default {
     setup() {
         let match_btn_info = ref("开始匹配");
+        store.state.pk.btninfo = "开始匹配";
         const click_match_btn = () => {
             if (store.state.pk.btninfo === "开始匹配") {
                 store.state.pk.btninfo = "取消匹配";
@@ -58,6 +59,7 @@ export default {
 }
 
 </script>
+
 
 <style scoped>
 div.matchGround {
