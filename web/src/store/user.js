@@ -22,6 +22,9 @@ export default {
         updateToken(state, token) {
             state.token = token;
         },
+        updatePhoto(state, photo) {
+            state.photo = photo;
+        },
         logout(state) {
             state.id = "";
             state.username = "";
@@ -83,7 +86,8 @@ export default {
         logout(context) {
             localStorage.removeItem("jwt_token");
             context.commit("logout");
-        }
+        },
+        
     },
     modules: {
     }

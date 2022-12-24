@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -67,8 +65,20 @@ public class RegisterServiceImpl implements RegisterService {
 
         //用户名密码无问题，则添加一个新用户
         String encodedPassword = passwordEncoder.encode(password);
-        String photo = "https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202212072159086.webp";
-        User user = new User(null, username, encodedPassword, photo);
+        List<String> photos = new ArrayList<>();
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202212072159086.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211242052207.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308530.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308493.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231920870.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231918014.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231910960.webp");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/45301314.png");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/typora-img/202209050905112.jpg");
+        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/typora-img/202207191026188.webp");
+
+        Random random = new Random();
+        User user = new User(null, username, encodedPassword, photos.get(random.nextInt(photos.size())));
         userMapper.insert(user);
         map.put("error_message", "success");
         return map;

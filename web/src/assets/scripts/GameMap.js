@@ -3,12 +3,13 @@ import { Wall } from "./Wall"
 import { Snake } from "./Snake"
 
 export class GameMap extends AcGameObject {
-    constructor(ctx, parent) {
+    constructor(ctx, parent, store) {
         super();
 
         this.ctx = ctx;
         this.parent = parent;
         this.L = 0;
+        this.store = store;
 
         this.rows = 13;
         this.cols = 14;
@@ -23,56 +24,10 @@ export class GameMap extends AcGameObject {
 
     }
 
-    check_connectivity(g, sx, sy, ex, ey) {
-        if (sx == ex && sy == ey) return true; //成功
-        g[sx][sy] = true;
-        let dx = [0, 0, 1, -1];
-        let dy = [1, -1, 0, 0];
-        for (let i = 0; i < 4; i++) {
-            let a = sx + dx[i], b = sy + dy[i];
-            if (!g[a][b] && this.check_connectivity(g, a, b, ex, ey)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     create_walls() {
-        const g = [];
-        for (let i = 0; i < this.rows; i++) {
-            g[i] = [];
-            for (let j = 0; j < this.cols; j++) {
-                g[i][j] = false;
-            }
-        }
+        const g = this.store.state.pk.gamemap;
 
-        //四周是墙
-        for (let i = 0; i < this.rows; i++) {
-            g[i][0] = true;
-            g[i][this.cols - 1] = true;
-        }
-        for (let i = 0; i < this.cols; i++) {
-            g[0][i] = true;
-            g[this.rows - 1][i] = true;
-        }
-
-        //生成对称的随机障碍物
-        for (let i = 0; i < this.inner_walls_count; i++) {
-            for (let j = 0; j < 100000; j++) {
-                let r = parseInt(Math.random() * this.rows);
-                let c = parseInt(Math.random() * this.cols);
-                if (g[r][c] || g[this.rows - r - 1][this.cols - c - 1]) continue; //已经有墙了
-                if (r == this.rows - 2 && c == 1 || r == 1 && c == this.cols - 2) continue; //排除起点
-                g[r][c] = true;
-                g[this.rows - r - 1][this.cols - c - 1] = true;
-                break;
-            }
-        }
-
-        const copy_g = JSON.parse(JSON.stringify(g));
-        if (!this.check_connectivity(copy_g, this.rows - 2, 1, 1, this.cols - 2)) {
-            return false;
-        } 
 
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
