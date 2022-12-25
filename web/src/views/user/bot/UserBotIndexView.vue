@@ -5,7 +5,7 @@
             <div class="col-3">
                 <div class="card" style="margin-top: 20px;">
                     <div class="card-body">
-                        <img :src="$store.state.user.photo" alt="" style="width: 100%;">
+                    <img class="img-fluid" :src="$store.state.user.photo" alt="" style="width: 19.2vw; height: 19.2vw;">
                     </div>
                 </div>
             </div>

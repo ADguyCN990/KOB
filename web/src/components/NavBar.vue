@@ -25,7 +25,17 @@
                             <li><routerLink class="dropdown-item" :to="{name: 'user_bot_index'}">我的蛇</routerLink></li>
                             <li>
                                 <hr class="dropdown-divider">
+                                
                             </li>
+
+                            <li>
+                                <routerLink class="dropdown-item" :to="{name: 'user_photo_index'}">更改头像</routerLink>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            
+                            </li>
+
                             <li><a class="dropdown-item" href="#" @click="logout">退出</a></li>
                         </ul>
                     </li>

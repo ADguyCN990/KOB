@@ -6,6 +6,7 @@ import RecordIndexView from '../views/record/RecordIndexView.vue'
 import UserBotIndexView from '../views/user/bot/UserBotIndexView.vue'
 import UserAccountLoginIndexView from '../views/user/account/UserAccountLoginView.vue'
 import UserAccountRegisterIndexView from '../views/user/account/UserAccountRegisterView.vue'
+import UserAccountPhotoIndexView from '../views/user/account/UserAccountPhotoIndexView.vue'
 import store from '../store/index'
 
 const routes = [
@@ -44,6 +45,14 @@ const routes = [
     path: "/user/bot/",
     name: "user_bot_index",
     component: UserBotIndexView,
+    meta: {
+      requestAuth: true,
+    }
+  },
+  {
+    path: "/user/photo/",
+    name: "user_photo_index",
+    component: UserAccountPhotoIndexView,
     meta: {
       requestAuth: true,
     }

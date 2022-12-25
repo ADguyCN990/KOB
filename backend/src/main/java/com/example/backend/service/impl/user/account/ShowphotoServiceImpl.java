@@ -17,7 +17,7 @@ public class ShowphotoServiceImpl implements ShowphotoService {
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308530.webp");
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308493.webp");
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231920870.webp");
-        photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231918014.webp");
+        //photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231918014.webp");
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231910960.webp");
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/45301314.png");
         photos.add("https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/typora-img/202209050905112.jpg");
