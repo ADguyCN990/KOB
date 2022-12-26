@@ -64,13 +64,18 @@ public class WebSocketServer {
     public void onClose() {
         // 关闭链接时自动调用该函数
         System.out.println("close");
+        if(this.user != null) {
+            users.remove(this.user.getId());
+        }
     }
     public static void startGame(Integer aId, Integer bId) {
         User a = userMapper.selectById(aId), b = userMapper.selectById(bId);
         Game game = new Game(13, 14, 20, a.getId(), b.getId());
         game.createMap();
-        users.get(a.getId()).game = game; //维护用户A的websocket
-        users.get(b.getId()).game = game; //维护用户B的websocket
+        if (users.get(a.getId()) != null)
+            users.get(a.getId()).game = game; //维护用户A的websocket
+        if (users.get(b.getId()) != null)
+            users.get(b.getId()).game = game; //维护用户B的websocket
         game.start();
 
         JSONObject respGame = new JSONObject();
@@ -87,14 +92,16 @@ public class WebSocketServer {
         respa.put("opponent_username", b.getUsername());
         respa.put("opponent_photo", b.getPhoto());
         respa.put("game", respGame);
-        users.get(a.getId()).sendMessage(respa.toJSONString()); //向前端发送信息
+        if (users.get(a.getId()) != null)
+            users.get(a.getId()).sendMessage(respa.toJSONString()); //向前端发送信息
 
         JSONObject respb = new JSONObject();
         respb.put("event", "start-matching");
         respb.put("opponent_username", a.getUsername());
         respb.put("opponent_photo", a.getPhoto());
         respb.put("game", respGame);
-        users.get(b.getId()).sendMessage(respb.toJSONString()); //向前端发送信息
+        if (users.get(b.getId()) != null)
+            users.get(b.getId()).sendMessage(respb.toJSONString()); //向前端发送信息
     }
     private void startMatching() {
         System.out.println("startMatching");
@@ -104,7 +111,7 @@ public class WebSocketServer {
         restTemplate.postForObject(addPlayerUrl, data, String.class);
     }
 
-    private void stopMatching() {
+   private void stopMatching() {
         System.out.println("stopMatching");
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("user_id", this.user.getId().toString());

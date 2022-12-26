@@ -103,8 +103,10 @@ public class Game extends Thread {
         }
     }
     private void sendAllMessage(String message) { //辅助函数，广播信息
-        WebSocketServer.users.get(PlayerA.getId()).sendMessage(message);
-        WebSocketServer.users.get(PlayerB.getId()).sendMessage(message);
+        if (WebSocketServer.users.get(PlayerA.getId()) != null)
+            WebSocketServer.users.get(PlayerA.getId()).sendMessage(message);
+        if (WebSocketServer.users.get(PlayerB.getId()) != null)
+            WebSocketServer.users.get(PlayerB.getId()).sendMessage(message);
     }
     private void sendMove() { //辅助函数, 向两名玩家发送move操作结果
         lock.lock();
