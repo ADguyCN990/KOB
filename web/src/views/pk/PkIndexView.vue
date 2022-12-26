@@ -7,12 +7,17 @@
         <MatchGround v-if="$store.state.pk.status === 'matching'">
             
         </MatchGround>
+
+        <ResultBoard v-if="$store.state.pk.loser !== 'none'">
+
+        </ResultBoard>
     </div>
 </template>
 
 <script>
 import PlayGround from '../../components/PlayGround.vue'
 import MatchGround from '../../components/MatchGround.vue'
+import ResultBoard from '../../components/ResultBoard.vue'
 import { onMounted } from 'vue';
 import { onUnmounted } from 'vue';
 import { useStore } from 'vuex'
@@ -20,6 +25,7 @@ export default {
     components: {
         PlayGround,
         MatchGround,
+        ResultBoard
     },
     setup() {
         const store = useStore();
@@ -46,15 +52,33 @@ export default {
                     store.commit("updateOpponent", {
                         username: data.opponent_username,
                         photo: data.opponent_photo,
-    
+                        
                     });
                     store.state.pk.btninfo = "匹配成功",
                     setTimeout(() => {
                         store.commit("updateStatus", "playing");
-                    }, 3000) //匹配成功，进入对战界面
+                    }, 3000); //匹配成功，进入对战界面
+                    store.commit("updateGame", data.game);
                 }
-                store.commit("updateGamemap", data.gamemap);
-                console.log(data);
+                else if (data.event === "move") { //后端返回蛇的移动方向
+                    console.log(data);
+                    const game = store.state.pk.gameObject; //取出游戏界面
+                    const [snake0, snake1] = game.snakes;
+                    snake0.set_direction(data.a_direction); 
+                    snake1.set_direction(data.b_direction);
+                }
+                else if (data.event === "result") {
+                    const game = store.state.pk.gameObject; //取出游戏界面
+                    const [snake0, snake1] = game.snakes;
+                    if (data.loser === "all" || data.loser === "A") { //A死
+                        snake0.status = "die";
+                    }
+                    if (data.loser === "all" || data.loser === "B") { //B死
+                        snake1.status = "die";
+                    }
+                    store.commit("updateLoser", data.loser);
+                }
+
             }
 
             socket.onclose = () => { //关闭时调用的函数
