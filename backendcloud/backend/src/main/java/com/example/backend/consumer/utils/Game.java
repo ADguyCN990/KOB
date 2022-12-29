@@ -3,7 +3,10 @@ package com.example.backend.consumer.utils;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.backend.config.WebSocketConfig;
 import com.example.backend.consumer.WebSocketServer;
+import com.example.backend.pojo.Bot;
 import com.example.backend.pojo.Record;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +26,7 @@ public class Game extends Thread {
     private Integer nextStepB = null; //玩家B的下一步操作
     private String loser = ""; //"all"平局，"A"，"B"
     private ReentrantLock lock = new ReentrantLock();
+    private static final String addBotUrl = "http://127.0.0.1:3002/bot/add/";
     public void setNextStepA(Integer nextStepA) { //设置A的下一步操作
         lock.lock();
         try {
@@ -39,12 +43,43 @@ public class Game extends Thread {
             lock.unlock();
         }
     }
+    private void sendBotCode(Player player) {
+        if (player.getBotId().equals(-1)) return;
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("user_id", player.getId().toString());
+        data.add("bot_code", player.getBotCode());
+        data.add("input", getInput(player));
+        System.out.println(player.getId().toString() + " " + player.getBotCode() + " " + getInput(player));
+        WebSocketServer.restTemplate.postForObject(addBotUrl, data, String.class);
+    }
+
+    private String getInput(Player player) {
+        Player me, you;
+        if(PlayerA.getId().equals(player.getId())) {
+            me = PlayerA;
+            you = PlayerB;
+        } else {
+            me = PlayerB;
+            you = PlayerA;
+        }
+
+        return getMapString() + "#" +
+                me.getSx() + "#" +
+                me.getSy() + "#(" +
+                me.getStepsString() + ")#" +    // 加()是为了预防操作序列为空
+                you.getSx() + "#" +
+                you.getSy() + "#(" +
+                you.getStepsString() + ")";
+    }
+
     private boolean nextStep() { //辅助函数, 两名玩家下一步操作是否就绪
         try {
             Thread.sleep(200); //最多200ms一次操作，频率在高的话操作可能会丢失
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        sendBotCode(PlayerA);
+        sendBotCode(PlayerB);
         // 因为会读玩家的nextStep操作，因此加锁
         for (int i = 0; i < 50; i++) {
             try {
@@ -196,13 +231,23 @@ public class Game extends Thread {
         return PlayerB;
     }
 
-    public Game(Integer rows, Integer cols, Integer inner_walls_count, Integer idA, Integer idB) {
+    public Game(Integer rows, Integer cols, Integer inner_walls_count, Integer idA, Bot botA, Integer idB, Bot botB) {
         this.rows = rows;
         this.cols = cols;
         this.inner_walls_count = inner_walls_count;
+        Integer botIdA = -1, botIdB = -1;
+        String botCodeA = "", botCodeB = "";
+        if (botA != null) {
+            botIdA = botA.getId();
+            botCodeA = botA.getContent();
+        }
+        if (botB != null) {
+            botIdB = botB.getId();
+            botCodeB = botB.getContent();
+        }
         this.g = new int[rows][cols];
-        PlayerA = new Player(idA, this.rows - 2, 1, new ArrayList<>());
-        PlayerB = new Player(idB, 1, this.cols - 2, new ArrayList<>());
+        PlayerA = new Player(idA, botIdA, botCodeA,this.rows - 2, 1, new ArrayList<>());
+        PlayerB = new Player(idB, botIdB, botCodeB,1, this.cols - 2, new ArrayList<>());
     }
 
     public int[][] getG() { //返回地图

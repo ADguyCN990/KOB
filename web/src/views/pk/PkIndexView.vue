@@ -21,6 +21,7 @@ import ResultBoard from '../../components/ResultBoard.vue'
 import { onMounted } from 'vue';
 import { onUnmounted } from 'vue';
 import { useStore } from 'vuex'
+//import { setTimeout } from 'timers/promises';
 export default {
     components: {
         PlayGround,
@@ -31,9 +32,9 @@ export default {
         const store = useStore();
         //const jwt_token = localStorage.getItem("jwt_token");
         const socket_url = `ws://127.0.0.1:3000/websocket/${store.state.user.token}`;
+        store.commit("updateLoser", "none");
         let socket = null;
         onMounted(() => {
-
             store.commit("updateOpponent", {
                 username: "我的对手",
                 photo: "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png",
@@ -57,8 +58,9 @@ export default {
                     store.state.pk.btninfo = "匹配成功",
                     setTimeout(() => {
                         store.commit("updateStatus", "playing");
-                    }, 3000); //匹配成功，进入对战界面
+                    }, 500); //匹配成功，进入对战界面
                     store.commit("updateGame", data.game);
+                    console.log(data.game);
                 }
                 else if (data.event === "move") { //后端返回蛇的移动方向
                     console.log(data);
