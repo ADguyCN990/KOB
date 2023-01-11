@@ -1,5 +1,6 @@
 package com.example.backend.service.impl.user.bot;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.backend.mapper.BotMapper;
 import com.example.backend.pojo.Bot;
 import com.example.backend.pojo.User;
@@ -50,11 +51,17 @@ public class AddServiceImpl implements AddService {
             map.put("error_message", "Bot代码不能超过10k个字符");
             return map;
         }
-
-        //格式合法，该Bot加入到数据库中
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         User user = loginUser.getUser();
+        QueryWrapper<Bot> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user.getId());
+        if(botMapper.selectCount(queryWrapper) >= 10) {
+            map.put("error_message", "每个用户最多只能创建10个Bot！");
+            return map;
+        }
+
+        //格式合法，该Bot加入到数据库中
         Date now = new Date();
         Bot bot = new Bot(null, user.getId(), title, description, content, now, now);
         botMapper.insert(bot);

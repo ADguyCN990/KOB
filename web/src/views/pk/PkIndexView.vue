@@ -33,6 +33,8 @@ export default {
         //const jwt_token = localStorage.getItem("jwt_token");
         const socket_url = `ws://127.0.0.1:3000/websocket/${store.state.user.token}`;
         store.commit("updateLoser", "none");
+        store.commit("updateLoser", 'none');
+        store.commit("updateIsRecord", false);
         let socket = null;
         onMounted(() => {
             store.commit("updateOpponent", {

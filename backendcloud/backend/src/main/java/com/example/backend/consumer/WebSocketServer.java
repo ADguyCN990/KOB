@@ -30,7 +30,7 @@ public class WebSocketServer {
     private User user; //当前链接请求的用户
     public static final ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     //与线程安全有关的哈希表，将userID映射到相应用户的WebSocketServer
-    private static UserMapper userMapper;
+    public static UserMapper userMapper;
     public static BotMapper botMapper;
     public static RecordMapper recordMapper;
     public static RestTemplate restTemplate;

@@ -5,6 +5,7 @@ import com.example.backend.config.WebSocketConfig;
 import com.example.backend.consumer.WebSocketServer;
 import com.example.backend.pojo.Bot;
 import com.example.backend.pojo.Record;
+import com.example.backend.pojo.User;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -165,7 +166,24 @@ public class Game extends Thread {
         }
         return res.toString();
     }
+    private void updateUserRating(Player player, Integer rating) {
+        User user = WebSocketServer.userMapper.selectById(player.getId());
+        user.setRating(rating);
+        WebSocketServer.userMapper.updateById(user);
+    }
     private void saveToDatabase() { //向数据库保存对局记录
+        Integer ratingA = WebSocketServer.userMapper.selectById(PlayerA.getId()).getRating();
+        Integer ratingB = WebSocketServer.userMapper.selectById(PlayerB.getId()).getRating();
+        if ("A".equals(loser)) {
+            ratingA -= 2;
+            ratingB += 5;
+        }
+        else if ("B".equals(loser)) {
+            ratingB -= 2;
+            ratingA += 5;
+        }
+        updateUserRating(PlayerA, ratingA);
+        updateUserRating(PlayerB, ratingB);
         Record record = new Record(
                 null,
                 getPlayerA().getId(),

@@ -7,7 +7,9 @@ import UserBotIndexView from '../views/user/bot/UserBotIndexView.vue'
 import UserAccountLoginIndexView from '../views/user/account/UserAccountLoginView.vue'
 import UserAccountRegisterIndexView from '../views/user/account/UserAccountRegisterView.vue'
 import UserAccountPhotoIndexView from '../views/user/account/UserAccountPhotoIndexView.vue'
+import RecordContentView from '../views/record/RecordContentView'
 import store from '../store/index'
+
 
 const routes = [
   {
@@ -79,6 +81,14 @@ const routes = [
     component: NotFoundView,
     meta: {
       requestAuth: false,
+    }
+  },
+  {
+    path: "/record/:recordId/",
+    name: "record_content",
+    component: RecordContentView,
+    meta: {
+      requestAuth: true,
     }
   },
   {
