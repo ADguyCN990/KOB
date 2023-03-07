@@ -13,7 +13,7 @@ public class GetphotoController {
     @Autowired
     private GetphotoService getphotoService;
 
-    @PostMapping("/user/account/getphoto/")
+    @PostMapping("/api/user/account/getphoto/")
     public Map<String, String> getPhoto(@RequestParam Map<String, String> data) {
         return getphotoService.getPhoto(data);
     }

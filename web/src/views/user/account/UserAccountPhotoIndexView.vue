@@ -41,7 +41,7 @@ export default {
         const jwt_token = localStorage.getItem("jwt_token");
         let photos = ref([]);
         $.ajax({
-            url: "http://127.0.0.1:3000/user/account/showphoto/",
+            url: "https://app2938.acapp.acwing.com.cn/api/user/account/showphoto/",
             type: "get",
             headers: {
                 Authorization: "Bearer " + jwt_token,
@@ -52,7 +52,7 @@ export default {
         })
         const changephoto = (photo) => {
             $.ajax({
-                url: "http://127.0.0.1:3000/user/account/getphoto/",
+                url: "https://app2938.acapp.acwing.com.cn/api/user/account/getphoto/",
                 type: "post",
                 headers: {
                     Authorization: "Bearer " + jwt_token,

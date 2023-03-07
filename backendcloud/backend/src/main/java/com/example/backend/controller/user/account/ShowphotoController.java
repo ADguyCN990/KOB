@@ -12,7 +12,7 @@ import java.util.List;
 public class ShowphotoController {
     @Autowired
     private ShowphotoService showphotoService;
-    @GetMapping("/user/account/showphoto/")
+    @GetMapping("/api/user/account/showphoto/")
     public List<PhotoUtil> showphoto() {
         return showphotoService.showphoto();
     }

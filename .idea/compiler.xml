@@ -15,7 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="backend" target="1.8" />
-      <module name="backend (1) (com.example.backend)" target="14" />
+      <module name="backend (1) (com.example.backend)" target="1.8" />
       <module name="backendcloud" target="1.8" />
       <module name="botrunningsystem" target="1.8" />
       <module name="matchingsystem" target="1.8" />
