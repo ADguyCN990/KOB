@@ -43,6 +43,16 @@
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.sf.buildbox</groupId>
+            <artifactId>strictlogging-tests</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.buildbox.strictlogging</groupId>
+            <artifactId>strictlogging-tests</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
     </dependencies>
 
